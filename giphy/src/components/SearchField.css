@@ -1,0 +1,41 @@
+input {
+    display: block;
+    margin: 1.1rem auto;
+    border-radius: 8px;
+    border: 1px solid #55b59f;
+    padding: 0.2rem 0.5rem;
+}
+button {
+    display: block;
+    margin: 1rem auto;
+    border-bottom: none;
+    padding: 0.2rem 0.8rem;
+    border-radius: 8px;
+}
+#searchBtn {
+    background-color: #55b59f;
+    border: 1px solid #3c8272;
+}
+#searchBtn:hover {
+    background-color: #3c8272;
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+}
+#trendingBtn {
+    background-color: #ed8672;
+    border: 1px solid #c77565;
+}
+#trendingBtn:hover {
+    background-color: #c77565;
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+}
+#randomBtn {
+    background-color: #669dc4;
+    border: 1px solid #507b99;
+}
+#randomBtn:hover {
+    background-color: #507b99;
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+}

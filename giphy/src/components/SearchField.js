@@ -24,7 +24,6 @@ class SearchField extends Component {
                 <button 
                     id="searchBtn"
                     onClick={this.getSearchResults}>Search</button>
-                <br/>
                 <button 
                     id="trendingBtn"
                     onClick={this.getTrendingResults}>Trending</button>
