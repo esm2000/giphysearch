@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GifCard from './GifCard'
 import './SearchField.css'
 
 class SearchField extends Component {
@@ -24,11 +25,26 @@ class SearchField extends Component {
                     id="searchBtn"
                     onClick={this.getSearchResults}>Search</button>
                 <br/>
-                <button id="trendingBtn">Trending</button>
-                <button id="randomBtn">Random</button>
-                
+                <button 
+                    id="trendingBtn"
+                    onClick={this.getTrendingResults}>Trending</button>
+                <button 
+                    id="randomBtn"
+                    onClick={this.getRandomResults}>Random</button>
+                {this.getGifs()}
             </div>
         );
+    }
+
+    // This function creates the gif card objects
+    getGifs = () => {
+        return this.state.gifs.map( (url ) => {
+            return (
+                <GifCard
+                    url={url}
+                />
+            );
+        });
     }
 
     // this function records the value of the search field
@@ -49,13 +65,45 @@ class SearchField extends Component {
 
         this.getUrls();
 
-        this.test();
-
     }
 
-    test = () => {
-        console.log(this.state.gifs)
+    getTrendingResults = () => {
+        this.getTrendingData().then((data) => {
+            
+            let urls = []
+            
+            console.log(data)
+            for(let i = 0; i < data.data.length; i++){
+                urls.push(data.data[i].images.fixed_height.url)
+            }
+            
+            this.setState({
+                gifs: urls
+            });
+
+        }).catch((err) => {
+            console.log(err.message)
+        })
     }
+
+    getRandomResults = () => {
+        this.getRandomGifData().then((data) => {
+            
+            let urls = []
+            
+            console.log(data)
+            
+            urls.push(data.data.images.fixed_height.url)
+            
+            this.setState({
+                gifs: urls
+            });
+
+        }).catch((err) => {
+            console.log(err.message)
+        })
+    }
+    
     // this function replaces the spaces in the search terms with '+'
     processSearchTerms = () => {
         let searchTerms = this.state.searchTerms.replace(/ /g, '+')
@@ -80,14 +128,41 @@ class SearchField extends Component {
         })
     }
 
-    // this function 
+    // this function obtains trending gifs
+    getTrendingData = () => {
+        return fetch(`http://api.giphy.com/v1/gifs/trending?api_key=${this.state.apiKey}`).then((response) => {
+            if(response.status === 200) {
+                return response.json()
+            } else {
+                throw new Error('Couldn\'t connect to server')
+            }
+        }).then((data) => {
+            return data
+        })
+    }
+
+    // this function obtains a random gif
+    getRandomGifData = () => {
+        return fetch(`http://api.giphy.com/v1/gifs/random?api_key=${this.state.apiKey}`).then((response) => {
+            if(response.status === 200) {
+                return response.json()
+            } else {
+                throw new Error('Couldn\'t connect to server')
+            }
+        }).then((data) => {
+            return data
+        })
+    }
+
+    // this function updates the state with the search urls
     getUrls = () => {
-        this.getSearchData(this.state.searchTerm).then((data) => {
+        this.getSearchData().then((data) => {
             
             let urls = []
             
+            console.log(data)
             for(let i = 0; i < data.data.length; i++){
-                urls.push(data.data[i].url)
+                urls.push(data.data[i].images.fixed_height.url)
             }
             
             this.setState({
@@ -97,8 +172,6 @@ class SearchField extends Component {
         }).catch((err) => {
             console.log(err.message)
         })
-
-        
     }
 }   
 

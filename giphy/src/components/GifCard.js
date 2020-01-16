@@ -6,7 +6,9 @@ class GifCard extends Component {
         super(props);
     }
     render() {
-        return
+        return (
+            <img src={this.props.url}/>
+        );
     }
 }
 
